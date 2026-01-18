@@ -1,0 +1,273 @@
+{
+  "Deployment": {
+    "prefix": "k8s-deploy",
+    "body": [
+      "---",
+      "apiVersion: apps/v1",
+      "kind: Deployment",
+      "metadata:",
+      "  name: ${1:deployment-name}",
+      "  namespace: ${2:default}",
+      "spec:",
+      "  replicas: ${3:1}",
+      "  selector:",
+      "    matchLabels:",
+      "      app: ${1:deployment-name}",
+      "  template:",
+      "    metadata:",
+      "      labels:",
+      "        app: ${1:deployment-name}",
+      "    spec:",
+      "      containers:",
+      "        - name: ${1:deployment-name}",
+      "          image: ${4:image:tag}",
+      "          ports:",
+      "            - containerPort: ${5:80}",
+      "$0"
+    ]
+  },
+
+  "Service": {
+    "prefix": "k8s-svc",
+    "body": [
+      "---",
+      "apiVersion: v1",
+      "kind: Service",
+      "metadata:",
+      "  name: ${1:service-name}",
+      "  namespace: ${2:default}",
+      "spec:",
+      "  selector:",
+      "    app: ${3:app-name}",
+      "  ports:",
+      "    - port: ${4:80}",
+      "      targetPort: ${5:80}",
+      "  type: ${6:ClusterIP}",
+      "$0"
+    ]
+  },
+
+  "ConfigMap": {
+    "prefix": "k8s-cm",
+    "body": [
+      "---",
+      "apiVersion: v1",
+      "kind: ConfigMap",
+      "metadata:",
+      "  name: ${1:configmap-name}",
+      "  namespace: ${2:default}",
+      "data:",
+      "  ${3:key}: ${4:value}",
+      "$0"
+    ]
+  },
+
+  "Secret": {
+    "prefix": "k8s-secret",
+    "body": [
+      "---",
+      "apiVersion: v1",
+      "kind: Secret",
+      "metadata:",
+      "  name: ${1:secret-name}",
+      "  namespace: ${2:default}",
+      "type: ${3:Opaque}",
+      "data:",
+      "  ${4:key}: ${5:base64-encoded-value}",
+      "$0"
+    ]
+  },
+
+  "Namespace": {
+    "prefix": "k8s-ns",
+    "body": [
+      "---",
+      "apiVersion: v1",
+      "kind: Namespace",
+      "metadata:",
+      "  name: ${1:namespace-name}",
+      "  labels:",
+      "    name: ${1:namespace-name}",
+      "$0"
+    ]
+  },
+
+  "StatefulSet": {
+    "prefix": "k8s-sts",
+    "body": [
+      "---",
+      "apiVersion: apps/v1",
+      "kind: StatefulSet",
+      "metadata:",
+      "  name: ${1:statefulset-name}",
+      "  namespace: ${2:default}",
+      "spec:",
+      "  replicas: ${3:1}",
+      "  serviceName: ${4:service-name}",
+      "  selector:",
+      "    matchLabels:",
+      "      app: ${1:statefulset-name}",
+      "  template:",
+      "    metadata:",
+      "      labels:",
+      "        app: ${1:statefulset-name}",
+      "    spec:",
+      "      containers:",
+      "        - name: ${1:statefulset-name}",
+      "          image: ${5:image:tag}",
+      "          ports:",
+      "            - containerPort: ${6:80}",
+      "  volumeClaimTemplates:",
+      "    - metadata:",
+      "        name: ${7:data}",
+      "      spec:",
+      "        accessModes:",
+      "          - ReadWriteOnce",
+      "        resources:",
+      "          requests:",
+      "            storage: ${8:1Gi}",
+      "$0"
+    ]
+  },
+
+  "DaemonSet": {
+    "prefix": "k8s-ds",
+    "body": [
+      "---",
+      "apiVersion: apps/v1",
+      "kind: DaemonSet",
+      "metadata:",
+      "  name: ${1:daemonset-name}",
+      "  namespace: ${2:default}",
+      "spec:",
+      "  selector:",
+      "    matchLabels:",
+      "      app: ${1:daemonset-name}",
+      "  template:",
+      "    metadata:",
+      "      labels:",
+      "        app: ${1:daemonset-name}",
+      "    spec:",
+      "      containers:",
+      "        - name: ${1:daemonset-name}",
+      "          image: ${3:image:tag}",
+      "          ports:",
+      "            - containerPort: ${4:80}",
+      "$0"
+    ]
+  },
+
+  "HorizontalPodAutoscaler": {
+    "prefix": "k8s-hpa",
+    "body": [
+      "---",
+      "apiVersion: autoscaling/v2",
+      "kind: HorizontalPodAutoscaler",
+      "metadata:",
+      "  name: ${1:hpa-name}",
+      "  namespace: ${2:default}",
+      "spec:",
+      "  scaleTargetRef:",
+      "    apiVersion: apps/v1",
+      "    kind: Deployment",
+      "    name: ${3:deployment-name}",
+      "  minReplicas: ${4:1}",
+      "  maxReplicas: ${5:10}",
+      "  metrics:",
+      "    - type: Resource",
+      "      resource:",
+      "        name: cpu",
+      "        target:",
+      "          type: Utilization",
+      "          averageUtilization: ${6:50}",
+      "$0"
+    ]
+  },
+
+  "ServiceAccount": {
+    "prefix": "k8s-sa",
+    "body": [
+      "---",
+      "apiVersion: v1",
+      "kind: ServiceAccount",
+      "metadata:",
+      "  name: ${1:serviceaccount-name}",
+      "  namespace: ${2:default}",
+      "$0"
+    ]
+  },
+
+  "Role": {
+    "prefix": "k8s-role",
+    "body": [
+      "---",
+      "apiVersion: rbac.authorization.k8s.io/v1",
+      "kind: Role",
+      "metadata:",
+      "  name: ${1:role-name}",
+      "  namespace: ${2:default}",
+      "rules:",
+      "    - apiGroups: [\"\"]",
+      "      resources: [\"${3:pods}\"]",
+      "      verbs: [\"${4:get}\", \"${5:list}\", \"${6:watch}\"]",
+      "$0"
+    ]
+  },
+
+  "ClusterRole": {
+    "prefix": "k8s-clusterrole",
+    "body": [
+      "---",
+      "apiVersion: rbac.authorization.k8s.io/v1",
+      "kind: ClusterRole",
+      "metadata:",
+      "  name: ${1:clusterrole-name}",
+      "rules:",
+      "    - apiGroups: [\"\"]",
+      "      resources: [\"${2:pods}\"]",
+      "      verbs: [\"${3:get}\", \"${4:list}\", \"${5:watch}\"]",
+      "$0"
+    ]
+  },
+
+  "RoleBinding": {
+    "prefix": "k8s-rolebinding",
+    "body": [
+      "---",
+      "apiVersion: rbac.authorization.k8s.io/v1",
+      "kind: RoleBinding",
+      "metadata:",
+      "  name: ${1:rolebinding-name}",
+      "  namespace: ${2:default}",
+      "roleRef:",
+      "  apiGroup: rbac.authorization.k8s.io",
+      "  kind: Role",
+      "  name: ${3:role-name}",
+      "subjects:",
+      "    - kind: ServiceAccount",
+      "      name: ${4:serviceaccount-name}",
+      "      namespace: ${2:default}",
+      "$0"
+    ]
+  },
+
+  "ClusterRoleBinding": {
+    "prefix": "k8s-clusterrolebinding",
+    "body": [
+      "---",
+      "apiVersion: rbac.authorization.k8s.io/v1",
+      "kind: ClusterRoleBinding",
+      "metadata:",
+      "  name: ${1:clusterrolebinding-name}",
+      "roleRef:",
+      "  apiGroup: rbac.authorization.k8s.io",
+      "  kind: ClusterRole",
+      "  name: ${2:clusterrole-name}",
+      "subjects:",
+      "    - kind: ServiceAccount",
+      "      name: ${3:serviceaccount-name}",
+      "      namespace: ${4:default}",
+      "$0"
+    ]
+  }
+}

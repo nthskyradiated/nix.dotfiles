@@ -1,0 +1,409 @@
+snippet deploy "Kubernetes Deployment"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${1:deployment-name}
+  namespace: ${2:default}
+spec:
+  replicas: ${3:1}
+  selector:
+    matchLabels:
+      app: ${1:deployment-name}
+  template:
+    metadata:
+      labels:
+        app: ${1:deployment-name}
+    spec:
+      containers:
+      - name: ${1:deployment-name}
+        image: ${4:image:tag}
+        ports:
+        - containerPort: ${5:80}
+$0
+endsnippet
+
+snippet svc "Kubernetes Service"
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${1:service-name}
+  namespace: ${2:default}
+spec:
+  selector:
+    app: ${3:app-name}
+  ports:
+  - port: ${4:80}
+    targetPort: ${5:80}
+  type: ${6:ClusterIP}
+$0
+endsnippet
+
+snippet cm "Kubernetes ConfigMap"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${1:configmap-name}
+  namespace: ${2:default}
+data:
+  ${3:key}: ${4:value}
+$0
+endsnippet
+
+snippet secret "Kubernetes Secret"
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ${1:secret-name}
+  namespace: ${2:default}
+type: ${3:Opaque}
+data:
+  ${4:key}: ${5:base64-encoded-value}
+$0
+endsnippet
+
+snippet ns "Kubernetes Namespace"
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${1:namespace-name}
+  labels:
+    name: ${1:namespace-name}
+$0
+endsnippet
+
+snippet sts "Kubernetes StatefulSet"
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ${1:statefulset-name}
+  namespace: ${2:default}
+spec:
+  replicas: ${3:1}
+  serviceName: ${4:service-name}
+  selector:
+    matchLabels:
+      app: ${1:statefulset-name}
+  template:
+    metadata:
+      labels:
+        app: ${1:statefulset-name}
+    spec:
+      containers:
+      - name: ${1:statefulset-name}
+        image: ${5:image:tag}
+        ports:
+        - containerPort: ${6:80}
+  volumeClaimTemplates:
+  - metadata:
+      name: ${7:data}
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: ${8:1Gi}
+$0
+endsnippet
+
+snippet ds "Kubernetes DaemonSet"
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ${1:daemonset-name}
+  namespace: ${2:default}
+spec:
+  selector:
+    matchLabels:
+      app: ${1:daemonset-name}
+  template:
+    metadata:
+      labels:
+        app: ${1:daemonset-name}
+    spec:
+      containers:
+      - name: ${1:daemonset-name}
+        image: ${3:image:tag}
+        ports:
+        - containerPort: ${4:80}
+$0
+endsnippet
+
+snippet hpa "Horizontal Pod Autoscaler"
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ${1:hpa-name}
+  namespace: ${2:default}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ${3:deployment-name}
+  minReplicas: ${4:1}
+  maxReplicas: ${5:10}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: ${6:50}
+$0
+endsnippet
+
+snippet sa "Kubernetes ServiceAccount"
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ${1:serviceaccount-name}
+  namespace: ${2:default}
+$0
+endsnippet
+
+snippet role "Kubernetes Role (namespaced)"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ${1:role-name}
+  namespace: ${2:default}
+rules:
+- apiGroups: [""]
+  resources: ["${3:pods}"]
+  verbs: ["${4:get}", "${5:list}", "${6:watch}"]
+$0
+endsnippet
+
+snippet clusterrole "Kubernetes ClusterRole (cluster-scoped)"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ${1:clusterrole-name}
+rules:
+- apiGroups: [""]
+  resources: ["${2:pods}"]
+  verbs: ["${3:get}", "${4:list}", "${5:watch}"]
+$0
+endsnippet
+
+snippet rolebinding "Kubernetes RoleBinding"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ${1:rolebinding-name}
+  namespace: ${2:default}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: ${3:role-name}
+subjects:
+- kind: ServiceAccount
+  name: ${4:serviceaccount-name}
+  namespace: ${2:default}
+$0
+endsnippet
+
+snippet clusterrolebinding "Kubernetes ClusterRoleBinding"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ${1:clusterrolebinding-name}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ${2:clusterrole-name}
+subjects:
+- kind: ServiceAccount
+  name: ${3:serviceaccount-name}
+  namespace: ${4:default}
+$0
+endsnippet
+
+snippet pv "Kubernetes PersistentVolume"
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ${1:persistentvolume-name}
+spec:
+  capacity:
+    storage: ${2:1Gi}
+  accessModes:
+  - ${3:ReadWriteOnce}
+  persistentVolumeReclaimPolicy: ${4:Retain}
+  storageClassName: ${5:standard}
+  hostPath:
+    path: ${6:/mnt/data}
+$0
+endsnippet
+
+snippet pvc "Kubernetes PersistentVolumeClaim"
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ${1:persistentvolumeclaim-name}
+  namespace: ${2:default}
+spec:
+  accessModes:
+  - ${3:ReadWriteOnce}
+  resources:
+    requests:
+      storage: ${4:1Gi}
+  storageClassName: ${5:standard}
+$0
+endsnippet
+
+snippet ingress "Kubernetes Ingress"
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ${1:ingress-name}
+  namespace: ${2:default}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: ${3:example.com}
+    http:
+      paths:
+      - path: ${4:/}
+        pathType: Prefix
+        backend:
+          service:
+            name: ${5:service-name}
+            port:
+              number: ${6:80}
+$0
+endsnippet
+
+snippet job "Kubernetes Job"
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ${1:job-name}
+  namespace: ${2:default}
+spec:
+  template:
+    spec:
+      containers:
+      - name: ${1:job-name}
+        image: ${3:image:tag}
+        command: ["${4:echo}", "${5:Hello from Kubernetes Job}"]
+      restartPolicy: Never
+  backoffLimit: ${6:4}
+$0
+endsnippet
+
+snippet cronjob "Kubernetes CronJob"
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ${1:cronjob-name}
+  namespace: ${2:default}
+spec:
+  schedule: "${3:0 * * * *}"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: ${1:cronjob-name}
+            image: ${4:image:tag}
+            command: ["${5:echo}", "${6:Hello from Kubernetes CronJob}"]
+          restartPolicy: OnFailure
+$0
+endsnippet
+
+snippet pdb "Pod Disruption Budget"
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: ${1:pdb-name}
+  namespace: ${2:default}
+spec:
+  minAvailable: ${3:1}
+  selector:
+    matchLabels:
+      app: ${4:app-name}
+$0
+endsnippet
+
+snippet netpol "Kubernetes NetworkPolicy"
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ${1:networkpolicy-name}
+  namespace: ${2:default}
+spec:
+  podSelector:
+    matchLabels:
+      app: ${3:app-name}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: ${4:frontend}
+    ports:
+    - protocol: TCP
+      port: ${5:80}
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          role: ${6:backend}
+    ports:
+    - protocol: TCP
+      port: ${7:80}
+$0
+endsnippet
+
+snippet pod "Kubernetes Pod"
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ${1:pod-name}
+  namespace: ${2:default}
+  labels:
+    app: ${1:pod-name}
+spec:
+  containers:
+  - name: ${1:pod-name}
+    image: ${3:image:tag}
+    ports:
+    - containerPort: ${4:80}
+$0
+endsnippet
+
+snippet quota "Kubernetes ResourceQuota"
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: ${1:quota-name}
+  namespace: ${2:default}
+spec:
+  hard:
+    requests.cpu: "${3:1}"
+    requests.memory: ${4:1Gi}
+    limits.cpu: "${5:2}"
+    limits.memory: ${6:2Gi}
+    pods: "${7:10}"
+$0
+endsnippet
+
+snippet limitrange "Kubernetes LimitRange"
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: ${1:limitrange-name}
+  namespace: ${2:default}
+spec:
+  limits:
+  - default:
+      cpu: ${3:100m}
+      memory: ${4:256Mi}
+    defaultRequest:
+      cpu: ${5:50m}
+      memory: ${6:128Mi}
+    type: Container
+$0
+endsnippet

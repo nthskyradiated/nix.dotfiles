@@ -1,0 +1,21 @@
+{
+  "name": "custom-devops-snippets",
+  "version": "1.0.0",
+  "description": "Custom snippets for DevOps tools",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "yaml",
+        "path": "./kubernetes.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./ansible.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./az-pipelines.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+# ~/.config/wofi/config
+allow_markup=true
+width=600
+height=400
+dpi-aware=yes
+hide_scroll=true
+location=center
+prompt=Search…
+normal_window=true
+image_size=24
+insensitive=true
+show_all=true
+term=foot
+filter_rate=100
+dynamic_lines=true
+

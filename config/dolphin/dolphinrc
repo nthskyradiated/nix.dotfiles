@@ -1,0 +1,20 @@
+[DetailsMode]
+UseSystemFont=false
+ViewFont=FiraCode Nerd Font,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+
+[General]
+Version=202
+ViewPropsTimestamp=2025,12,29,11,6,3.898
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[MainWindow]
+MenuBar=Disabled
+
+[PreviewSettings]
+Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,svgthumbnail
+
+[UiSettings]
+ColorScheme=BreezeDark
