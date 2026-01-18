@@ -1,5 +1,5 @@
 {
-  description = "Andy's Neovim Configuration with nixCats";
+  description = "My nixCats config";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -23,7 +23,7 @@
         # LSP servers and runtime dependencies
         lspsAndRuntimeDeps = {
           general = with pkgs; [
-            # Language servers
+
             typescript-language-server
             vscode-langservers-extracted
             gopls
@@ -39,7 +39,6 @@
             helm-ls
             lua-language-server
 
-            # Formatters
             prettier
             yamlfmt
             black
@@ -48,7 +47,6 @@
             shfmt
             nixpkgs-fmt
 
-            # Linters
             golangci-lint
             hadolint
             yamllint
@@ -60,11 +58,9 @@
             kubeconform
             python313Packages.mypy
 
-            # Other tools
             ripgrep
             fd
             fzf
-            bat
             tree-sitter
           ];
         };

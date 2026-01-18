@@ -51,8 +51,12 @@
   programs = {
     git = {
       enable = true;
-      userEmail = userEmail;
-      userName = username;
+      settings = {
+        user = {
+          email = userEmail;
+          name = username;
+        };
+      };
       ignores = [
         "node_modules"
         ".env"
@@ -69,7 +73,7 @@
         cat = "bat";
         ls = "exa -l --icons";
         k = "kubectl";
-        nrs = "sudo nixos-rebuild switch --flake ~/nixos-dotfiles#${hostname}";
+        nrs = "sudo nixos-rebuild switch --flake ~/nix.dotfiles#${hostname}";
         nixdelgrub = "sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system && sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch";
       };
       profileExtra = ''

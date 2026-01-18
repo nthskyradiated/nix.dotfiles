@@ -1,51 +1,46 @@
-# Shared language servers, formatters, and development tools
 { pkgs, ... }:
 
 {
   home.packages = with pkgs; [
-    # LSP Servers
+
     nodePackages.typescript-language-server
-    nodePackages.vscode-langservers-extracted # HTML, CSS, JSON, ESLint
+    nodePackages.vscode-langservers-extracted
     gopls
     tofu-ls
     yaml-language-server
     lua-language-server
-    pyright # Python LSP
-    zls # Zig LSP
+    pyright
+    zls
     svelte-language-server
     nodePackages.bash-language-server
-    dockerfile-language-server # Dockerfile LSP
-    helm-ls # Kubernetes Helm LSP
-    nil # Nix LSP
+    dockerfile-language-server
+    helm-ls
+    nil
 
-    # Formatters
     nodePackages.prettier
     stylua
-    black # Python formatter
-    isort # Python import sorter
-    shfmt # Bash formatter
-    yamlfmt # YAML formatter
-    nixpkgs-fmt # Nix formatter
+    black
+    isort
+    shfmt
+    yamlfmt
+    nixpkgs-fmt
 
-    # Linters
     nodePackages.eslint
-    hadolint # Dockerfile linter
+    hadolint
     ansible-lint
     yamllint
-    statix # Nix linter
-    pylint # Python linter (NEW)
-    python313Packages.mypy # Python type checker (NEW)
-    golangci-lint # Go comprehensive linter (NEW)
-    luajitPackages.luacheck # Lua linter (NEW)
-    markdownlint-cli # Markdown linter (NEW)
-    tflint # Terraform linter (NEW)
-    kubeconform # kubernetes schemaa validator
+    statix
+    pylint
+    python313Packages.mypy
+    golangci-lint
+    luajitPackages.luacheck
+    markdownlint-cli
+    tflint
+    kubeconform
 
-    # Search and navigation tools
     ripgrep
     fd
     fzf
-    bat
   ];
 }
 

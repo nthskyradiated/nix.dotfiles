@@ -5,5 +5,5 @@
     extraGroups = [ "wheel" "docker" "libvirtd" "networkmanager" ];
   };
 
-  services.getty.autologinUser = username;
+  # services.getty.autologinUser = username;
 }
