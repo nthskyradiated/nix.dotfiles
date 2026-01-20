@@ -23,7 +23,7 @@
         # LSP servers and runtime dependencies
         lspsAndRuntimeDeps = {
           general = with pkgs; [
-
+            # Language servers
             typescript-language-server
             vscode-langservers-extracted
             gopls
@@ -38,6 +38,7 @@
             yaml-language-server
             helm-ls
             lua-language-server
+            tailwindcss-language-server
 
             prettier
             yamlfmt
@@ -76,6 +77,7 @@
             which-key-nvim
             gitsigns-nvim
             comment-nvim
+            tailwind-tools-nvim
 
             nvim-lspconfig
             nvim-cmp
@@ -94,28 +96,11 @@
             harpoon2
 
             vim-fugitive
-
+            vim-svelte
             undotree
             zen-mode-nvim
 
-            (nvim-treesitter.withPlugins (p: [
-              p.typescript
-              p.javascript
-              p.tsx
-              p.go
-              p.terraform
-              p.json
-              p.yaml
-              p.lua
-              p.vim
-              p.vimdoc
-              p.markdown
-              p.python
-              p.zig
-              p.svelte
-              p.bash
-              p.nix
-            ]))
+            (nvim-treesitter.withAllGrammars)
           ];
         };
 

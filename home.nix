@@ -36,7 +36,7 @@
     sshpass
     opentofu
     nil
-    nixpkgs-fmt
+    mkcert
     libnotify
     gnome-themes-extra
     papirus-icon-theme
