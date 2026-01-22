@@ -10,6 +10,16 @@
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "26.05";
 
+  home.sessionVariables = {
+    GTK_THEME = "Adwaita:dark";
+    GTK_USE_PORTAL = "1";
+    QT_QPA_PLATFORMTHEME = "adwaita";
+    QT_STYLE_OVERRIDE = "adwaita-dark";
+    QT_FONT_DPI = "96";
+  };
+
+  fonts.fontconfig.enable = true;
+
   home.packages = with pkgs; [
 
     tealdeer
@@ -38,6 +48,12 @@
     nil
     mkcert
     libnotify
+
+    qt6Packages.qt6ct
+    adwaita-qt
+    adwaita-qt6
+    qadwaitadecorations
+    qadwaitadecorations-qt6
     gnome-themes-extra
     papirus-icon-theme
 
@@ -113,30 +129,36 @@
       '';
     };
   };
-  # GTK theming
-  #   gtk = {
-  #     enable = true;
-  #     font = {
-  #       name = "Adwaita";
-  #       size = 11;
-  #     };
-  #     iconTheme = {
-  #       name = "Papirus-Dark";
-  #       package = pkgs.papirus-icon-theme;
-  #     };
-  #     theme = {
-  #       name = "Adwaita-dark";
-  #       package = pkgs.gnome-themes-extra;
-  #     };
-  #     gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
-  #     gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
-  #   };
 
-  # Qt theming
+  # GTK theming
+  gtk = {
+    enable = true;
+    font = {
+      name = "JetBrains Mono";
+      size = 11;
+    };
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+    };
+  };
+
+  # Qt theming - simplified approach
   qt = {
     enable = true;
-    platformTheme.name = "kde";
+    platformTheme.name = "adwaita";
     style.name = "adwaita-dark";
+
   };
 
   wayland.windowManager.hyprland = {
@@ -157,6 +179,13 @@
   };
 
   xdg = {
+
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+      ];
+    };
     mimeApps = {
       enable = true;
       defaultApplications = {
@@ -171,5 +200,18 @@
       name = "LibreWolf";
       exec = "${pkgs.librewolf}/bin/librewolf";
     };
+
+    desktopEntries.gvim = {
+      name = "GVim";
+      exec = "ghostty -e gvim %F";
+      categories = [ "Development" "TextEditor" ];
+    };
+
+    desktopEntries.btop = {
+      name = "btop";
+      exec = "ghostty -e btop";
+      categories = [ "System" "Monitor" ];
+    };
+
   };
 }

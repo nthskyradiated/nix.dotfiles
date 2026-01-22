@@ -1,4 +1,4 @@
-{ config, pkgs, lib, username, hostname, timezone, k8sHosts, ... }:
+{ config, pkgs, lib, username, hostname, timezone, k8s-hosts, ... }:
 {
   imports = [
     /etc/nixos/hardware-configuration.nix
@@ -16,7 +16,7 @@
 
   networking.hostName = hostname;
   time.timeZone = timezone;
-
+  services.dbus.enable = true;
   features.k8s-hosts.enable = true;
 
   environment.systemPackages = with pkgs; [
@@ -38,9 +38,29 @@
     brightnessctl
     swayosd
     cdrkit
+
+    adwaita-qt
+    adwaita-qt6
+    libsForQt5.qtstyleplugins
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  programs.dconf.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+    ];
+    config = {
+      common = {
+        default = [ "gtk" ];
+      };
+    };
+  };
+
   # programs.firefox.enable = true;
 
   system.stateVersion = "26.05";
