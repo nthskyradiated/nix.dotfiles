@@ -71,7 +71,7 @@
       enable = true;
       shellAliases = {
         cat = "bat";
-        ls = "exa -l --icons";
+        ls = "eza -l --icons";
         k = "kubectl";
         nrs = "sudo nixos-rebuild switch --flake ~/nix.dotfiles#${hostname}";
         nixdelgrub = "sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system && sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch";
@@ -82,39 +82,60 @@
         fi
       '';
       initExtra = ''
-        BOLD="\[\e[1m\]"
-        GREEN="\[\e[32m\]"
-        CYAN="\[\e[36m\]"
-        BLUE="\[\e[34m\]"
-        RESET="\[\e[0m\]"
-        PS1="''${BOLD}''${BLUE}\u@\h''${GREEN}:''${CYAN}\w''${GREEN}$\n=>''${RESET} "
+              BOLD="\[\e[1m\]"
+              RED="\[\e[31m\]"
+              GREEN="\[\e[32m\]"
+              CYAN="\[\e[36m\]"
+              BLUE="\[\e[34m\]"
+              RESET="\[\e[0m\]"
+
+          git_info() {
+          git rev-parse --is-inside-work-tree &>/dev/null || return
+
+          branch=$(git symbolic-ref --short HEAD 2>/dev/null \
+            || git describe --tags --exact-match 2>/dev/null \
+            || git rev-parse --short HEAD 2>/dev/null)
+
+          if git status --porcelain 2>/dev/null | grep -q .; then
+            glyph_color="$RED"
+          else
+            glyph_color="$GREEN"
+          fi
+
+          echo -n "''${BOLD}''${glyph_color}󰊢 (''${branch}) "
+        }
+
+        build_ps1() {
+            PS1="''${BOLD}''${BLUE}\u@\h''${GREEN}:''${CYAN}\w''${GREEN}$ ''$(git_info)\n=>''${RESET} "
+        }
+
+        PROMPT_COMMAND=build_ps1
       '';
     };
   };
-
   # GTK theming
-  gtk = {
-    enable = true;
-    font = {
-      name = "Adwaita";
-      size = 11;
-    };
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.gnome-themes-extra;
-    };
-    gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
-    gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
-  };
+  #   gtk = {
+  #     enable = true;
+  #     font = {
+  #       name = "Adwaita";
+  #       size = 11;
+  #     };
+  #     iconTheme = {
+  #       name = "Papirus-Dark";
+  #       package = pkgs.papirus-icon-theme;
+  #     };
+  #     theme = {
+  #       name = "Adwaita-dark";
+  #       package = pkgs.gnome-themes-extra;
+  #     };
+  #     gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+  #     gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
+  #   };
 
   # Qt theming
   qt = {
     enable = true;
-    platformTheme.name = "gtk3";
+    platformTheme.name = "kde";
     style.name = "adwaita-dark";
   };
 

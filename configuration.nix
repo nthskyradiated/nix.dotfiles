@@ -29,6 +29,7 @@
     librewolf
     hyprpaper
     kdePackages.dolphin
+    kdePackages.kget
     vlc
     pavucontrol
     pamixer
@@ -40,6 +41,7 @@
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # programs.firefox.enable = true;
 
   system.stateVersion = "26.05";
 }

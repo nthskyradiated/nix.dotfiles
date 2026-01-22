@@ -17,6 +17,7 @@ with lib;
         "api.myapp.sh"
         "azure-winds.myapp.sh"
         "auth.myapp.sh"
+        "drizzle.myapp.sh"
       ];
 
 
