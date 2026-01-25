@@ -39,11 +39,8 @@ cmp.setup({
 	},
 })
 
-require("luasnip.loaders.from_vscode").lazy_load()
-
-local custom_snippets_path = vim.fn.stdpath("config") .. "/snippets/custom"
-if vim.fn.isdirectory(custom_snippets_path) == 1 then
-	require("luasnip.loaders.from_vscode").lazy_load({
-		paths = { custom_snippets_path },
-	})
-end
+require("luasnip.loaders.from_vscode").lazy_load({
+	paths = {
+		"/home/andy/nix.dotfiles/modules/development/snippets",
+	},
+})
