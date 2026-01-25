@@ -27,6 +27,7 @@
     bat
     btop
     shellcheck
+    neovide
 
     go
     nodejs_24
@@ -200,11 +201,11 @@
       name = "LibreWolf";
       exec = "${pkgs.librewolf}/bin/librewolf";
     };
-
-    desktopEntries.gvim = {
-      name = "GVim";
-      exec = "ghostty -e gvim %F";
-      categories = [ "Development" "TextEditor" ];
+    desktopEntries.nvim = {
+      name = "Neovim (Terminal)";
+      exec = "ghostty -e nvim";
+      icon = "nvim"; # optional, pick whatever icon you want
+      categories = [ "Utility" "Development" ];
     };
 
     desktopEntries.btop = {

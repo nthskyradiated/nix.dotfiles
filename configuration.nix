@@ -30,6 +30,8 @@
     hyprpaper
     kdePackages.dolphin
     kdePackages.kget
+    kdePackages.okular
+    libreoffice-qt
     vlc
     pavucontrol
     pamixer

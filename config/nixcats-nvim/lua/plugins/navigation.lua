@@ -49,3 +49,76 @@ end, { desc = "Harpoon 3" })
 vim.keymap.set("n", "<C-l>", function()
 	harpoon:list():select(4)
 end, { desc = "Harpoon 4" })
+
+-- Neo-tree (sidebar)
+local ok, neotree = pcall(require, "neo-tree")
+if ok then
+	neotree.setup({
+		open_on_setup = false,
+		open_on_setup_file = false,
+
+		close_if_last_window = true,
+
+		enable_git_status = true,
+		enable_diagnostics = true,
+
+		window = {
+			position = "left",
+			width = 32,
+			mappings = {
+				["<space>"] = "toggle_node",
+				["<cr>"] = "open",
+				["l"] = "open",
+				["h"] = "close_node",
+				["q"] = "close_window",
+			},
+		},
+		default_component_configs = {
+			container = {
+				enable_character_fade = true,
+			},
+			indent = {
+				indent_size = 2,
+				padding = 1,
+				with_markers = false,
+			},
+			icon = {
+				folder_closed = "",
+				folder_open = "",
+				folder_empty = "",
+				default = "",
+			},
+			modified = {
+				symbol = "●",
+				highlight = "NeoTreeModified",
+			},
+			git_status = {
+				symbols = {
+					added = "A",
+					modified = "M",
+					deleted = "D",
+					renamed = "R",
+					untracked = "U",
+					ignored = "◌",
+					unstaged = "",
+					staged = "✓",
+					conflict = "",
+				},
+			},
+		},
+
+		filesystem = {
+			follow_current_file = {
+				enabled = false,
+			},
+			bind_to_cwd = false,
+			hijack_netrw_behavior = "disabled",
+
+			use_libuv_file_watcher = true,
+		},
+	})
+
+	vim.keymap.set("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Explorer" })
+	vim.keymap.set("n", "<leader>o", "<cmd>Neotree focus<cr>", { desc = "Explorer focus" })
+	vim.keymap.set("n", "<leader>gs", "<cmd>Neotree git_status<cr>", { desc = "Git sidebar" })
+end

@@ -46,3 +46,20 @@ vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clip
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" })
 
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete to void register" })
+
+vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "New tab" })
+vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", { desc = "Close tab" })
+vim.keymap.set("n", "<leader>to", ":tabonly<CR>", { desc = "Only tab" })
+vim.keymap.set("n", "<leader>tl", ":tabnext<CR>", { desc = "Next tab" })
+vim.keymap.set("n", "<leader>th", ":tabprev<CR>", { desc = "Previous tab" })
+
+-- Window focus
+vim.keymap.set("n", "<leader>wh", "<C-w>h", { desc = "Window left" })
+vim.keymap.set("n", "<leader>wj", "<C-w>j", { desc = "Window down" })
+vim.keymap.set("n", "<leader>wk", "<C-w>k", { desc = "Window up" })
+vim.keymap.set("n", "<leader>wl", "<C-w>l", { desc = "Window right" })
+
+-- Window management (optional but logical)
+vim.keymap.set("n", "<leader>wc", "<C-w>c", { desc = "Close window" })
+vim.keymap.set("n", "<leader>wv", "<C-w>v", { desc = "Vertical split" })
+vim.keymap.set("n", "<leader>ws", "<C-w>s", { desc = "Horizontal split" })

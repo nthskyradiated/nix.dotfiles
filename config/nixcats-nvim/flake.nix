@@ -72,6 +72,7 @@
 
             plenary-nvim
             nvim-web-devicons
+            neo-tree-nvim
 
             lualine-nvim
             which-key-nvim
