@@ -3,8 +3,8 @@
 {
   home.packages = with pkgs; [
 
-    nodePackages.typescript-language-server
-    nodePackages.vscode-langservers-extracted
+    typescript-language-server
+    vscode-langservers-extracted
     gopls
     tofu-ls
     yaml-language-server
@@ -12,12 +12,12 @@
     pyright
     zls
     svelte-language-server
-    nodePackages.bash-language-server
+    bash-language-server
     dockerfile-language-server
     helm-ls
     nil
 
-    nodePackages.prettier
+    prettier
     stylua
     black
     isort
@@ -25,7 +25,7 @@
     yamlfmt
     nixpkgs-fmt
 
-    nodePackages.eslint
+    eslint
     hadolint
     ansible-lint
     yamllint
