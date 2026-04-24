@@ -28,6 +28,8 @@
     btop
     shellcheck
     neovide
+    yt-dlp
+    ffmpeg
 
     go
     nodejs_24
