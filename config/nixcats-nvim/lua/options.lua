@@ -112,11 +112,11 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 
 vim.keymap.set("n", "<leader>td", function()
 	if vim.diagnostic.is_enabled() then
-		vim.diagnostic.disable()
+		vim.diagnostic.enable(false)
 		vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
 		print("✗ All diagnostics disabled")
 	else
-		vim.diagnostic.enable()
+		vim.diagnostic.enable(true)
 		update_current_line_virt_text()
 		print("✓ All diagnostics enabled")
 	end
