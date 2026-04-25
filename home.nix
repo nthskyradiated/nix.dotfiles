@@ -67,6 +67,14 @@
     '')
   ];
 
+  services.mako = {
+    enable = true;
+    settings = {
+      default-timeout = 3000;
+    };
+  };
+
+
   programs = {
     git = {
       enable = true;

@@ -1,27 +1,40 @@
 #!/usr/bin/env bash
 
-# Extract only first Sinks block (ignore the second empty one)
-SINKS=$(wpctl status | sed -n '/Sinks:/,/Sources:/p' | head -n 5)
+# Get all sinks (Audio/Sink nodes)
+mapfile -t SINK_IDS < <(
+  pw-dump | jq -r '
+    .[] 
+    | select(.type == "PipeWire:Interface:Node") 
+    | select(.info.props."media.class" == "Audio/Sink") 
+    | .id
+  '
+)
 
-# Parse IDs
-HDMI_ID=$(echo "$SINKS" | grep -i "HDMI" | awk '{print $2}' | sed 's/\.//')
-BUILTIN_ID=$(echo "$SINKS" | grep -i "Analog" | awk '{print $2}' | sed 's/\.//')
-CURRENT_ID=$(echo "$SINKS" | grep "\*" | awk '{print $2}' | sed 's/\.//')
+# Get current default sink
+CURRENT_ID=$(wpctl status | grep '\*' | grep -oE '[0-9]+' | head -1)
 
-echo "Current: $CURRENT_ID"
-echo "HDMI:    $HDMI_ID"
-echo "Built-in: $BUILTIN_ID"
-
-if [ -z "$CURRENT_ID" ] || [ -z "$HDMI_ID" ] || [ -z "$BUILTIN_ID" ]; then
-    echo "Error: Could not parse sinks"
-    exit 1
+if [ ${#SINK_IDS[@]} -lt 2 ]; then
+  notify-send "Audio Toggle" "Only one sink available"
+  exit 1
 fi
 
-if [ "$CURRENT_ID" = "$HDMI_ID" ]; then
-    wpctl set-default "$BUILTIN_ID"
-    notify-send "Audio Output" "Switched to Built-in Audio"
-else
-    wpctl set-default "$HDMI_ID"
-    notify-send "Audio Output" "Switched to HDMI Output"
-fi
+# Find next sink
+NEXT_ID=""
+for i in "${!SINK_IDS[@]}"; do
+  if [ "${SINK_IDS[$i]}" = "$CURRENT_ID" ]; then
+    NEXT_ID="${SINK_IDS[$(((i + 1) % ${#SINK_IDS[@]}))]}"
+    break
+  fi
+done
 
+# Get human-readable name from PipeWire
+NEXT_NAME=$(pw-dump | jq -r "
+  .[] 
+  | select(.id == $NEXT_ID) 
+  | .info.props.\"node.description\"
+")
+
+# Switch
+wpctl set-default "$NEXT_ID"
+
+notify-send "Audio Output" "Switched to: $NEXT_NAME"
