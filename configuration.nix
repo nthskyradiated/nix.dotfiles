@@ -40,6 +40,7 @@
     brightnessctl
     swayosd
     cdrkit
+    ntfs3g
 
     adwaita-qt
     adwaita-qt6
