@@ -32,6 +32,9 @@
 
         modules = [
           ./configuration.nix
+          {
+            nixpkgs.config.allowUnfree = true;
+          }
 
           home-manager.nixosModules.home-manager
           {
