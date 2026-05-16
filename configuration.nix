@@ -1,4 +1,4 @@
-{ config, pkgs, lib, username, hostname, timezone, k8s-hosts, ... }:
+{ config, pkgs, lib, username, hostname, timezone, hyprland, k8s-hosts, ... }:
 {
   imports = [
     /etc/nixos/hardware-configuration.nix

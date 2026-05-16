@@ -1,0 +1,8 @@
+{
+  "workspace": {
+    "library": ["/home/andy/.config/hypr"]
+  },
+  "diagnostics": {
+    "globals": ["hl"]
+  }
+}

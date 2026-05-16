@@ -21,7 +21,6 @@
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
-
     tealdeer
     eza
     bat
@@ -172,23 +171,19 @@
 
   };
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    systemd.enable = false;
-  };
-
   home.file = {
-    ".config/hypr".source = ./config/hypr;
+    ".config/hypr/hyprland.lua".source = ./config/hypr/hyprland.lua;
+    ".config/hypr/hyprpaper.conf".source = ./config/hypr/hyprpaper.conf;
+    ".config/hypr/hl.meta.lua".source = ./config/hypr/hl.meta.lua;
     ".config/dolphinrc".source = ./config/dolphin/dolphinrc;
     ".config/wofi".source = ./config/wofi;
     ".config/waybar".source = ./config/waybar;
     ".config/ghostty".source = ./config/ghostty;
-    ".config/hypr/scripts/toggle-audio.sh" = {
-      source = ./config/hypr/scripts/toggle-audio.sh;
+    ".config/scripts/toggle-audio.sh" = {
+      source = ./config/scripts/toggle-audio.sh;
       executable = true;
     };
   };
-
   xdg = {
 
     portal = {

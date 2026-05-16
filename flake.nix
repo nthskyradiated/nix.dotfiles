@@ -11,9 +11,14 @@
       url = "path:./config/nixcats-nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland = {
+      url = "github:hyprwm/HyprLand/v0.55.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = { self, nixpkgs, home-manager, nixCats-nvim, ... }:
+  outputs = { self, nixpkgs, home-manager, hyprland, nixCats-nvim, ... }:
     let
       system = "x86_64-linux";
       username = "andy";
@@ -27,7 +32,7 @@
         inherit system;
 
         specialArgs = {
-          inherit username hostname timezone;
+          inherit username hostname timezone hyprland;
         };
 
         modules = [
@@ -43,7 +48,7 @@
             home-manager.users.${username} = import ./home.nix;
 
             home-manager.extraSpecialArgs = {
-              inherit username userEmail hostname nixCats-nvim;
+              inherit username userEmail hostname hyprland nixCats-nvim;
             };
           }
         ];
