@@ -151,6 +151,65 @@ hl.config({
 
 local main_mod = "SUPER" -- Sets "Windows" key as main modifier
 
+-- Smart move/resize: if alone on workspace, resize by 50% in direction.
+-- If resized once already (window not centered), move to prev/next workspace.
+-- last_resize_dir tracks the last direction resized, for double-press detection.
+local last_resize_dir = nil
+
+local function smart_move_or_resize(direction)
+	local ws = hl.get_active_workspace()
+	if ws and ws.windows <= 1 then
+		-- Only one window on workspace
+		if last_resize_dir == direction then
+			-- Second press in same direction: move to adjacent workspace
+			if direction == "left" then
+				hl.dispatch(hl.dsp.window.move({ workspace = "e-1", follow = true }))
+			elseif direction == "right" then
+				hl.dispatch(hl.dsp.window.move({ workspace = "e+1", follow = true }))
+			elseif direction == "up" then
+				hl.dispatch(hl.dsp.window.move({ workspace = "e-1", follow = true }))
+			elseif direction == "down" then
+				hl.dispatch(hl.dsp.window.move({ workspace = "e+1", follow = true }))
+			end
+			last_resize_dir = nil
+		else
+			-- First press: float and resize to 50% in that direction
+			local monitor = hl.get_active_monitor()
+			if monitor then
+				local hw = math.floor(monitor.width / 2)
+				local hh = math.floor(monitor.height / 2)
+				hl.dispatch(hl.dsp.window.float({ action = "set" }))
+				if direction == "left" then
+					hl.dispatch(hl.dsp.window.resize({ x = hw, y = monitor.height, relative = false }))
+					hl.dispatch(hl.dsp.window.move({ x = 0, y = 0, relative = false }))
+				elseif direction == "right" then
+					hl.dispatch(hl.dsp.window.resize({ x = hw, y = monitor.height, relative = false }))
+					hl.dispatch(hl.dsp.window.move({ x = hw, y = 0, relative = false }))
+				elseif direction == "up" then
+					hl.dispatch(hl.dsp.window.resize({ x = monitor.width, y = hh, relative = false }))
+					hl.dispatch(hl.dsp.window.move({ x = 0, y = 0, relative = false }))
+				elseif direction == "down" then
+					hl.dispatch(hl.dsp.window.resize({ x = monitor.width, y = hh, relative = false }))
+					hl.dispatch(hl.dsp.window.move({ x = 0, y = hh, relative = false }))
+				end
+			end
+			last_resize_dir = direction
+		end
+	else
+		-- Multiple windows: move the tiled window in direction
+		last_resize_dir = nil
+		if direction == "left" then
+			hl.dispatch(hl.dsp.window.move({ direction = "left" }))
+		elseif direction == "right" then
+			hl.dispatch(hl.dsp.window.move({ direction = "right" }))
+		elseif direction == "up" then
+			hl.dispatch(hl.dsp.window.move({ direction = "up" }))
+		elseif direction == "down" then
+			hl.dispatch(hl.dsp.window.move({ direction = "down" }))
+		end
+	end
+end
+
 -- Launch terminal
 hl.bind(main_mod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(main_mod .. " + grave", hl.dsp.exec_cmd(terminal))
@@ -181,17 +240,45 @@ hl.bind(main_mod .. " + D", hl.dsp.focus({ direction = "right" }))
 hl.bind(main_mod .. " + W", hl.dsp.focus({ direction = "up" }))
 hl.bind(main_mod .. " + S", hl.dsp.focus({ direction = "down" }))
 
--- Move tiled windows with main_mod + SHIFT + WASD
-hl.bind(main_mod .. " + SHIFT + A", hl.dsp.exec_cmd("hyprctl dispatch movewindow l"))
-hl.bind(main_mod .. " + SHIFT + D", hl.dsp.exec_cmd("hyprctl dispatch movewindow r"))
-hl.bind(main_mod .. " + SHIFT + W", hl.dsp.exec_cmd("hyprctl dispatch movewindow u"))
-hl.bind(main_mod .. " + SHIFT + S", hl.dsp.exec_cmd("hyprctl dispatch movewindow d"))
+-- Swap windows with main_mod + SHIFT + WASD
+hl.bind(main_mod .. " + SHIFT + A", function()
+	hl.dispatch(hl.dsp.window.swap({ direction = "left" }))
+end)
+hl.bind(main_mod .. " + SHIFT + D", function()
+	hl.dispatch(hl.dsp.window.swap({ direction = "right" }))
+end)
+hl.bind(main_mod .. " + SHIFT + W", function()
+	hl.dispatch(hl.dsp.window.swap({ direction = "up" }))
+end)
+hl.bind(main_mod .. " + SHIFT + S", function()
+	hl.dispatch(hl.dsp.window.swap({ direction = "down" }))
+end)
 
--- Resize active window with main_mod + CTRL + WASD
-hl.bind(main_mod .. " + CTRL + A", hl.dsp.window.resize({ x = -30, y = 0 }))
-hl.bind(main_mod .. " + CTRL + D", hl.dsp.window.resize({ x = 30, y = 0 }))
-hl.bind(main_mod .. " + CTRL + W", hl.dsp.window.resize({ x = 0, y = -30 }))
-hl.bind(main_mod .. " + CTRL + S", hl.dsp.window.resize({ x = 0, y = 30 }))
+-- Smart move/resize with main_mod + CTRL + WASD
+-- With multiple windows: moves window in direction
+-- With single window: resizes to 50% on first press, moves to adjacent workspace on second press
+hl.bind(main_mod .. " + CTRL + A", function()
+	smart_move_or_resize("left")
+end)
+hl.bind(main_mod .. " + CTRL + D", function()
+	smart_move_or_resize("right")
+end)
+hl.bind(main_mod .. " + CTRL + W", function()
+	smart_move_or_resize("up")
+end)
+hl.bind(main_mod .. " + CTRL + S", function()
+	smart_move_or_resize("down")
+end)
+
+-- Resize submap (SUPER + R to enter, ESC to exit)
+hl.bind(main_mod .. " + SHIFT + F", hl.dsp.submap("resize"))
+hl.define_submap("resize", function()
+	hl.bind("A", hl.dsp.window.resize({ x = -30, y = 0, relative = true }), { repeating = true })
+	hl.bind("D", hl.dsp.window.resize({ x = 30, y = 0, relative = true }), { repeating = true })
+	hl.bind("W", hl.dsp.window.resize({ x = 0, y = -30, relative = true }), { repeating = true })
+	hl.bind("S", hl.dsp.window.resize({ x = 0, y = 30, relative = true }), { repeating = true })
+	hl.bind("escape", hl.dsp.submap("reset"))
+end)
 
 -- Switch workspaces with main_mod + [0-9]
 -- Move active window to a workspace with main_mod + SHIFT + [0-9]
@@ -210,8 +297,8 @@ hl.bind(main_mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { mous
 hl.bind(main_mod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }), { mouse = true })
 
 -- Move/resize windows with main_mod + LMB/RMB and dragging
-hl.bind(main_mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true, drag = true })
-hl.bind(main_mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, drag = true })
+hl.bind(main_mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+hl.bind(main_mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Volume and Media Control (with OSD indicators)
 hl.bind(
@@ -239,7 +326,7 @@ hl.bind(
 )
 
 -- Audio output toggle
-hl.bind("F12", hl.dsp.exec_cmd("~/.config/scripts/toggle-audio.sh"))
+hl.bind("F12", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle-audio.sh"))
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
