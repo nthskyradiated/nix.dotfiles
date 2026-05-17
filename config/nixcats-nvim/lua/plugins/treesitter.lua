@@ -13,13 +13,13 @@ vim.api.nvim_create_autocmd({ "FileType", "BufReadPost" }, {
 })
 
 -- Optional: disable regex syntax if Tree-sitter attaches
-vim.api.nvim_create_autocmd("FileType", {
-	callback = function()
-		if vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] then
-			vim.cmd("syntax off")
-		end
-	end,
-})
+--  vim.api.nvim_create_autocmd("FileType", {
+-- 	callback = function()
+--		if vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] then
+--			vim.cmd("syntax off")
+--		end
+--	end,
+-- })
 
 -- Disable LSP semantic tokens when Tree-sitter is active
 vim.api.nvim_create_autocmd("LspAttach", {

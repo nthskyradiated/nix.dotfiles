@@ -406,3 +406,9 @@ end, {
 	desc = "Change YAML schema for current buffer",
 })
 vim.keymap.set("n", "<leader>ys", ":YamlSchema ", { desc = "Change YAML schema" })
+
+vim.api.nvim_create_user_command("LspInfo", function()
+	for _, c in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+		print(c.name)
+	end
+end, { desc = "List attached LSP clients" })
