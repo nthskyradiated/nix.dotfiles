@@ -322,10 +322,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 			vim.bo.filetype = "yaml"
 			print("📄 Generic YAML detected")
 		end
-
-		vim.defer_fn(function()
-			vim.cmd("LspRestart yamlls")
-		end, 100)
 	end,
 })
 
@@ -392,7 +388,13 @@ vim.api.nvim_create_user_command("YamlSchema", function(opts)
 			schemas = schemas[schema_type],
 		})
 		print("✓ YAML schema changed to: " .. schema_type)
-		vim.cmd("LspRestart yamlls")
+		local clients = vim.lsp.get_clients({ bufnr = 0, name = "yamlls" })
+		for _, client in ipairs(clients) do
+			client.stop()
+		end
+		vim.defer_fn(function()
+			vim.lsp.enable("yamlls")
+		end, 200)
 	else
 		print("❌ Unknown schema. Available: kubernetes, ansible, docker, azure, github, helm")
 	end
