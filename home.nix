@@ -101,6 +101,12 @@
         k = "kubectl";
         nrs = "sudo nixos-rebuild switch --flake ~/nix.dotfiles#${hostname}";
         nixdelgrub = "sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system && sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch";
+
+        # work-related
+        ovpn-start = "openvpn3 session-start --config ~/.config/openvpn/work.ovpn";
+        ovpnls = "openvpn3 sessions-list";
+        ovpn-auth = "openvpn3 session-auth";
+
       };
       profileExtra = ''
         if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
@@ -183,6 +189,7 @@
       source = ./config/scripts/toggle-audio.sh;
       executable = true;
     };
+    ".config/openvpn/work.ovpn".source = ./config/openvpn/work.ovpn;
   };
   xdg = {
 

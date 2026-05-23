@@ -7,6 +7,7 @@
     ./modules/system/audio.nix
     ./modules/system/bluetooth.nix
     ./modules/system/virtualization.nix
+    ./modules/system/openvpn3-client.nix
     ./modules/desktop/hyprland.nix
     ./modules/desktop/fonts.nix
     ./modules/optional/k8s-hosts.nix
@@ -16,9 +17,15 @@
 
   networking.hostName = hostname;
   time.timeZone = timezone;
-  services.dbus.enable = true;
   features.k8s-hosts.enable = true;
-
+  services.openvpn3-client = {
+    enable = true;
+    profiles = [
+      "/home/${username}/.config/openvpn/work.ovpn"
+    ];
+    persistentProfiles = true;
+  };
+  services.resolved.enable = true;
   environment.systemPackages = with pkgs; [
     tree
     wget
@@ -41,13 +48,15 @@
     swayosd
     cdrkit
     ntfs3g
-
     adwaita-qt
     adwaita-qt6
     libsForQt5.qtstyleplugins
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   programs.dconf.enable = true;
 
@@ -57,14 +66,13 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
     ];
+
     config = {
       common = {
         default = [ "gtk" ];
       };
     };
   };
-
-  # programs.firefox.enable = true;
 
   system.stateVersion = "26.05";
 }
