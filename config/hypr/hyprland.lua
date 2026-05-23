@@ -216,7 +216,7 @@ hl.bind(main_mod .. " + grave", hl.dsp.exec_cmd(terminal))
 
 -- Applications
 hl.bind(main_mod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(main_mod .. " + L", hl.dsp.exec_cmd(librewolf))
+hl.bind(main_mod .. " + B", hl.dsp.exec_cmd(librewolf))
 hl.bind(main_mod .. " + V", hl.dsp.exec_cmd(vlc))
 hl.bind(main_mod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(main_mod .. " + X", hl.dsp.exec_cmd(snip))
