@@ -189,7 +189,7 @@
       source = ./config/scripts/toggle-audio.sh;
       executable = true;
     };
-    ".config/openvpn/profile-userlocked.ovpn".source =
+    ".config/openvpn/work.ovpn".source =
       config.lib.file.mkOutOfStoreSymlink
         "/home/andy/nix.dotfiles/config/openvpn/work.ovpn";
   };
