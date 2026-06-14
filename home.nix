@@ -144,6 +144,71 @@
         PROMPT_COMMAND=build_ps1
       '';
     };
+    fish = {
+      enable = true;
+
+      shellAliases = {
+        cat = "bat";
+        ls = "eza -l --icons";
+        k = "kubectl";
+        nrs = "sudo nixos-rebuild switch --flake ~/nix.dotfiles#${hostname}";
+        nixdelgrub = "sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system && sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch";
+
+        ovpn-start = "openvpn3 session-start --config ~/.config/openvpn/work.ovpn";
+        ovpnls = "openvpn3 sessions-list";
+        ovpn-auth = "openvpn3 session-auth";
+      };
+
+      loginShellInit = ''
+        if test -z "$WAYLAND_DISPLAY"; and test (tty) = "/dev/tty1"
+          exec uwsm start hyprland-uwsm.desktop
+        end
+      '';
+
+      functions = {
+        fish_prompt = ''
+          set_color --bold blue
+          printf "%s@%s" $USER (prompt_hostname)
+
+          set_color green
+          printf ":"
+
+          set_color cyan
+          printf "%s" (prompt_pwd)
+
+          set_color green
+          printf "\$ "
+
+          if git rev-parse --is-inside-work-tree >/dev/null 2>&1
+            set branch (git symbolic-ref --short HEAD 2>/dev/null)
+
+            if test -z "$branch"
+              set branch (git describe --tags --exact-match 2>/dev/null)
+            end
+
+            if test -z "$branch"
+              set branch (git rev-parse --short HEAD 2>/dev/null)
+            end
+
+            if test -n "$branch"
+                if string length -q -- (git status --porcelain 2>/dev/null)
+                set_color red
+              else
+                set_color green
+              end
+
+              printf "󰊢 (%s)" $branch
+            end
+          end
+
+          printf "\n"
+
+          set_color normal
+          printf "=> "
+        '';
+      };
+    };
+
   };
 
   # GTK theming
