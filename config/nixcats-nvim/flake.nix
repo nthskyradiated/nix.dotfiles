@@ -24,6 +24,8 @@
         lspsAndRuntimeDeps = {
           general = with pkgs; [
             # Language servers
+            vscode-extensions.denoland.vscode-deno
+            astro-language-server
             typescript-language-server
             vscode-langservers-extracted
             gopls
@@ -50,6 +52,8 @@
 
             golangci-lint
             hadolint
+            zig-zlint
+            eslint
             yamllint
             markdownlint-cli
             pylint

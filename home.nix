@@ -30,12 +30,6 @@
     yt-dlp
     ffmpeg
 
-    go
-    nodejs_24
-    pnpm
-    deno
-    conventional-changelog-cli
-
     kubectl
     kubeseal
     kubernetes-helm
@@ -47,7 +41,6 @@
     tor-browser
     sshpass
     opentofu
-    nil
     mkcert
     libnotify
 
@@ -72,7 +65,6 @@
       default-timeout = 3000;
     };
   };
-
 
   programs = {
     git = {
@@ -292,6 +284,5 @@
       exec = "ghostty -e btop";
       categories = [ "System" "Monitor" ];
     };
-
   };
 }

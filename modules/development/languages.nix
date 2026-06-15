@@ -3,6 +3,15 @@
 {
   home.packages = with pkgs; [
 
+    go
+    nodejs_24
+    pnpm
+    deno
+    zig
+    conventional-changelog-cli
+
+    vscode-extensions.denoland.vscode-deno
+    astro-language-server
     typescript-language-server
     vscode-langservers-extracted
     gopls
@@ -29,6 +38,7 @@
     hadolint
     ansible-lint
     yamllint
+    zig-zlint
     statix
     pylint
     python313Packages.mypy
