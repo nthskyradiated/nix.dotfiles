@@ -1,9 +1,12 @@
-{ config, pkgs, username, userEmail, hostname, nixCats-nvim, ... }:
+{ config, pkgs, username, userEmail, nixCats-nvim, ... }:
+
 {
   imports = [
     nixCats-nvim.homeModule
     ./modules/development/languages.nix
     ./modules/editors/vim
+    ./modules/shells/bash.nix
+    ./modules/shells/fish.nix
   ];
 
   home.username = username;
@@ -37,6 +40,9 @@
 
     yq
     jq
+    ripgrep
+    fd
+    fzf
 
     tor-browser
     sshpass
@@ -83,122 +89,6 @@
         "/build"
         "dist/"
       ];
-    };
-
-    bash = {
-      enable = true;
-      shellAliases = {
-        cat = "bat";
-        ls = "eza -l --icons";
-        k = "kubectl";
-        nrs = "sudo nixos-rebuild switch --flake ~/nix.dotfiles#${hostname}";
-        nixdelgrub = "sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system && sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch";
-
-        # work-related
-        ovpn-start = "openvpn3 session-start --config ~/.config/openvpn/work.ovpn";
-        ovpnls = "openvpn3 sessions-list";
-        ovpn-auth = "openvpn3 session-auth";
-
-      };
-      profileExtra = ''
-        if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-          exec uwsm start hyprland-uwsm.desktop
-        fi
-      '';
-      initExtra = ''
-              BOLD="\[\e[1m\]"
-              RED="\[\e[31m\]"
-              GREEN="\[\e[32m\]"
-              CYAN="\[\e[36m\]"
-              BLUE="\[\e[34m\]"
-              RESET="\[\e[0m\]"
-
-          git_info() {
-          git rev-parse --is-inside-work-tree &>/dev/null || return
-
-          branch=$(git symbolic-ref --short HEAD 2>/dev/null \
-            || git describe --tags --exact-match 2>/dev/null \
-            || git rev-parse --short HEAD 2>/dev/null)
-
-          if git status --porcelain 2>/dev/null | grep -q .; then
-            glyph_color="$RED"
-          else
-            glyph_color="$GREEN"
-          fi
-
-          echo -n "''${BOLD}''${glyph_color}󰊢 (''${branch}) "
-        }
-
-        build_ps1() {
-            PS1="''${BOLD}''${BLUE}\u@\h''${GREEN}:''${CYAN}\w''${GREEN}$ ''$(git_info)\n=>''${RESET} "
-        }
-
-        PROMPT_COMMAND=build_ps1
-      '';
-    };
-    fish = {
-      enable = true;
-
-      shellAliases = {
-        cat = "bat";
-        ls = "eza -l --icons";
-        k = "kubectl";
-        nrs = "sudo nixos-rebuild switch --flake ~/nix.dotfiles#${hostname}";
-        nixdelgrub = "sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system && sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch";
-
-        ovpn-start = "openvpn3 session-start --config ~/.config/openvpn/work.ovpn";
-        ovpnls = "openvpn3 sessions-list";
-        ovpn-auth = "openvpn3 session-auth";
-      };
-
-      loginShellInit = ''
-        if test -z "$WAYLAND_DISPLAY"; and test (tty) = "/dev/tty1"
-          exec uwsm start hyprland-uwsm.desktop
-        end
-      '';
-
-      functions = {
-        fish_prompt = ''
-          set_color --bold blue
-          printf "%s@%s" $USER (prompt_hostname)
-
-          set_color green
-          printf ":"
-
-          set_color cyan
-          printf "%s" (prompt_pwd)
-
-          set_color green
-          printf "\$ "
-
-          if git rev-parse --is-inside-work-tree >/dev/null 2>&1
-            set branch (git symbolic-ref --short HEAD 2>/dev/null)
-
-            if test -z "$branch"
-              set branch (git describe --tags --exact-match 2>/dev/null)
-            end
-
-            if test -z "$branch"
-              set branch (git rev-parse --short HEAD 2>/dev/null)
-            end
-
-            if test -n "$branch"
-                if string length -q -- (git status --porcelain 2>/dev/null)
-                set_color red
-              else
-                set_color green
-              end
-
-              printf "󰊢 (%s)" $branch
-            end
-          end
-
-          printf "\n"
-
-          set_color normal
-          printf "=> "
-        '';
-      };
     };
 
   };
@@ -250,8 +140,8 @@
       config.lib.file.mkOutOfStoreSymlink
         "/home/andy/nix.dotfiles/config/openvpn/work.ovpn";
   };
-  xdg = {
 
+  xdg = {
     portal = {
       enable = true;
       extraPortals = with pkgs; [

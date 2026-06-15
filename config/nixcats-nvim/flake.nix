@@ -23,7 +23,7 @@
         # LSP servers and runtime dependencies
         lspsAndRuntimeDeps = {
           general = with pkgs; [
-            # Language servers
+            # Language servers. Almost all of these can be removed as they're duplicates from languages.nix. 
             vscode-extensions.denoland.vscode-deno
             astro-language-server
             typescript-language-server
@@ -63,9 +63,6 @@
             kubeconform
             python313Packages.mypy
 
-            ripgrep
-            fd
-            fzf
             tree-sitter
           ];
         };

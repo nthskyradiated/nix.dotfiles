@@ -22,7 +22,9 @@
     zls
     svelte-language-server
     bash-language-server
+    tailwindcss-language-server
     dockerfile-language-server
+    docker-compose-language-service
     helm-ls
     nil
 
@@ -47,10 +49,6 @@
     markdownlint-cli
     tflint
     kubeconform
-
-    ripgrep
-    fd
-    fzf
   ];
 }
 
