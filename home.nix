@@ -72,6 +72,23 @@
     };
   };
 
+  services.hyprsunset = {
+    enable = true;
+    settings = {
+      max-gamma = 100;
+      profile = [
+        {
+          time = "7:00";
+          identity = true;
+        }
+        {
+          time = "17:00";
+          temperature = 4000;
+        }
+      ];
+    };
+  };
+
   programs = {
     git = {
       enable = true;

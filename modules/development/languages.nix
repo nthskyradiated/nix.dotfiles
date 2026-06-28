@@ -9,6 +9,7 @@
     deno
     zig
     conventional-changelog-cli
+    gcc
 
     vscode-extensions.denoland.vscode-deno
     astro-language-server

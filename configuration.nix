@@ -35,6 +35,7 @@
     wofi
     librewolf
     hyprpaper
+    hyprsunset
     kdePackages.dolphin
     kdePackages.kget
     kdePackages.okular
