@@ -62,6 +62,8 @@
 
   programs.fish.enable = true;
 
+  ## nixpkgs.config.permittedInsecurePackages = [ "librewolf-151.0.2-1" "librewolf-unwrapped-151.0.2-1" ];
+
   xdg.portal = {
     enable = true;
     wlr.enable = true;
