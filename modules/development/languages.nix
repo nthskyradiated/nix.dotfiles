@@ -28,6 +28,7 @@
     docker-compose-language-service
     helm-ls
     nil
+    coc-clangd
 
     prettier
     stylua
