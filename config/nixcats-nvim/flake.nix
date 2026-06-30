@@ -89,6 +89,7 @@
             cmp-cmdline
             luasnip
             cmp_luasnip
+            clangd_extensions-nvim
 
             conform-nvim
             nvim-lint

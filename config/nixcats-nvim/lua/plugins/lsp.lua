@@ -81,7 +81,7 @@ vim.lsp.config("ts_ls", {
 vim.lsp.config("eslint", {
 	cmd = { "vscode-eslint-language-server", "--stdio" },
 	filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "svelte" },
-	root_markers = { ".eslintrc", ".eslintrc.js", ".eslintrc.json", "package.json" },
+	root_markers = { ".eslintrc", ".eslintrc.js", "eslint.config.js", ".eslintrc.json", "package.json" },
 	capabilities = capabilities,
 })
 
@@ -126,6 +126,25 @@ vim.lsp.config("zls", {
 	filetypes = { "zig", "zir" },
 	root_markers = { "zls.json", ".git" },
 	capabilities = capabilities,
+})
+
+vim.lsp.config("clangd", {
+	cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=iwyu" },
+	filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+	root_markers = { "compile_commands.json", "compile_flags.txt", ".clangd", ".git" },
+	capabilities = capabilities,
+})
+
+require("clangd_extensions").setup({
+	server = {}, -- clangd is already configured above via vim.lsp.config
+	extensions = {
+		autoSetHints = true,
+		inlay_hints = {
+			inline = false,
+			show_parameter_hints = true,
+			show_variable_name = true,
+		},
+	},
 })
 
 vim.lsp.config("svelte", {
@@ -291,6 +310,7 @@ vim.lsp.enable({
 	"bashls",
 	"dockerls",
 	"nil_ls",
+	"clangd",
 })
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {

@@ -10,6 +10,7 @@
     zig
     conventional-changelog-cli
     gcc
+    clang-tools
 
     vscode-extensions.denoland.vscode-deno
     astro-language-server
@@ -28,7 +29,6 @@
     docker-compose-language-service
     helm-ls
     nil
-    coc-clangd
 
     prettier
     stylua
