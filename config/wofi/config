@@ -13,4 +13,4 @@ show_all=true
 term=foot
 filter_rate=100
 dynamic_lines=true
-
+allow_images=true
