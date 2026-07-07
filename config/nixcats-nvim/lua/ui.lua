@@ -26,6 +26,15 @@ require("tokyonight").setup({
 		hl.CursorLine = {
 			bg = "NONE",
 		}
+
+		hl.NormalFloat = {
+			bg = c.bg_highlight,
+		}
+
+		hl.FloatBorder = {
+			fg = c.warning,
+			bg = c.bg_highlight,
+		}
 	end,
 })
 
