@@ -10,3 +10,5 @@ require("plugins.completion")
 require("plugins.treesitter")
 require("plugins.navigation")
 require("plugins.lint")
+
+require("lsp_hover").setup()
