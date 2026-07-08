@@ -101,6 +101,13 @@ vim.lsp.config("gopls", {
 	},
 })
 
+vim.lsp.config("helm_ls", {
+	cmd = { "helm_ls", "serve" },
+	filetypes = { "helm", "yaml.helm-values", "templates/*.yaml", "templates/*.yml" },
+	root_markers = { "Chart.yaml", "chart.yaml", "chart.yml", "Chart.yml", ".git" },
+	capabilities = capabilities,
+})
+
 vim.lsp.config("tofu-ls", {
 	cmd = { "tofu-ls", "serve" },
 	filetypes = { "terraform", "tf" },
@@ -125,6 +132,13 @@ vim.lsp.config("zls", {
 	cmd = { "zls" },
 	filetypes = { "zig", "zir" },
 	root_markers = { "zls.json", ".git" },
+	capabilities = capabilities,
+})
+
+vim.lsp.config("lua_ls", {
+	cmd = { "lua-language-server" },
+	filetypes = { "lua" },
+	root_markers = { ".luarc.json", "stylua.toml", ".git" },
 	capabilities = capabilities,
 })
 
@@ -311,6 +325,7 @@ vim.lsp.enable({
 	"dockerls",
 	"nil_ls",
 	"clangd",
+	"lua_ls",
 })
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {

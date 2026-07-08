@@ -29,6 +29,12 @@ lsp_hover.config = {
 		max_height = math.floor(vim.o.lines * 0.5),
 	},
 
+	--- % escapes the "-" character. see
+	["^tofu%-ls"] = {
+		name = " Terraform",
+		border_hl = "@function",
+	},
+
 	["^lua_ls"] = {
 		name = " LuaLS",
 		border_hl = "@function",
@@ -59,10 +65,6 @@ lsp_hover.config = {
 	},
 	["^pyright"] = {
 		name = " Python",
-		border_hl = "@function",
-	},
-	["^tofu-ls"] = {
-		name = " Terraform",
 		border_hl = "@function",
 	},
 	["^eslint"] = {
