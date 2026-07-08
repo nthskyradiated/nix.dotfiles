@@ -36,6 +36,7 @@
             bash-language-server
             docker-compose-language-service
             dockerfile-language-server
+            ansible-language-server
             nil
             yaml-language-server
             helm-ls

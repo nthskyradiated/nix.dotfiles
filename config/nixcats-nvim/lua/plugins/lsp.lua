@@ -54,6 +54,13 @@ vim.lsp.config("helm_ls", {
 	capabilities = capabilities,
 })
 
+vim.lsp.config("ansible_ls", {
+	cmd = { "ansible-language-server", "--stdio" },
+	filetypes = { "yaml.ansible" },
+	root_markers = { "ansible.cfg", ".ansible-lint", "roles", ".git" },
+	capabilities = capabilities,
+})
+
 vim.lsp.config("tofu-ls", {
 	cmd = { "tofu-ls", "serve" },
 	filetypes = { "terraform", "tf" },
@@ -143,6 +150,7 @@ vim.lsp.config("nil_ls", {
 
 vim.lsp.enable({
 	"helm_ls",
+	"ansible_ls",
 	"ts_ls",
 	"eslint",
 	"gopls",

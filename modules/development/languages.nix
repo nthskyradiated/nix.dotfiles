@@ -25,6 +25,7 @@
     svelte-language-server
     bash-language-server
     tailwindcss-language-server
+    ansible-language-server
     dockerfile-language-server
     docker-compose-language-service
     helm-ls

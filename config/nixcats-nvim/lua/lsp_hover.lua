@@ -79,6 +79,10 @@ lsp_hover.config = {
 		name = " svelte",
 		border_hl = "@function",
 	},
+	["^ansible_ls"] = {
+		name = " Ansible",
+		border_hl = "@function",
+	},
 	["^helm_ls"] = {
 		name = " Helm",
 		border_hl = "@function",

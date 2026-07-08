@@ -152,8 +152,11 @@ function M.setup(capabilities)
 			elseif yaml_type == "ansible" then
 				vim.bo.filetype = "yaml.ansible"
 				print(" Ansible detected")
-			elseif yaml_type == "helm" or yaml_type == "helm-chart" then
+			elseif yaml_type == "helm-chart" then
 				vim.bo.filetype = "yaml"
+				print("⎈ Helm Chart.yaml detected")
+			elseif yaml_type == "helm" then
+				vim.bo.filetype = "helm"
 				print("⎈ Helm detected")
 			elseif yaml_type == "kubernetes" then
 				vim.bo.filetype = "yaml"
