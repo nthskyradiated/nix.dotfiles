@@ -11,6 +11,7 @@
     conventional-changelog-cli
     gcc
     clang-tools
+    typescript
 
     vscode-extensions.denoland.vscode-deno
     astro-language-server

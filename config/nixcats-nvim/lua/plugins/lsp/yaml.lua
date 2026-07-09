@@ -66,7 +66,7 @@ end
 function M.setup(capabilities)
 	vim.lsp.config("yamlls", {
 		cmd = { "yaml-language-server", "--stdio" },
-		filetypes = { "yaml", "yaml.docker-compose", "yaml.ansible" },
+		filetypes = { "yaml", "yaml.docker-compose" },
 		capabilities = capabilities,
 		settings = {
 			yaml = {
@@ -101,22 +101,6 @@ function M.setup(capabilities)
 					},
 					["https://json.schemastore.org/chart.json"] = { "Chart.yaml", "Chart.yml" },
 					["https://json.schemastore.org/values.schema.json"] = { "values.yaml", "values.yml" },
-					["https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json"] = {
-						"**/playbooks/*.yml",
-						"**/playbooks/*.yaml",
-						"**/roles/*.yml",
-						"**/roles/*.yaml",
-						"**/tasks/*.yml",
-						"**/tasks/*.yaml",
-						"**/handlers/*.yml",
-						"**/handlers/*.yaml",
-						"site.yml",
-						"site.yaml",
-						"main.yml",
-						"main.yaml",
-						"playbook*.yml",
-						"playbook*.yaml",
-					},
 					["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/all.json"] = {
 						"*.k8s.yaml",
 						"*.k8s.yml",
@@ -179,12 +163,6 @@ function M.setup(capabilities)
 		local schemas = {
 			kubernetes = {
 				["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/master-standalone-strict/all.json"] = {
-					"*.yaml",
-					"*.yml",
-				},
-			},
-			ansible = {
-				["https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json"] = {
 					"*.yaml",
 					"*.yml",
 				},

@@ -34,7 +34,15 @@ lsp_hover.config = {
 		name = " Terraform",
 		border_hl = "@function",
 	},
+	["^ansible_ls"] = {
+		name = " Ansible",
+		border_hl = "@function",
+	},
 
+	["^astro_ls"] = {
+		name = " AstroLS",
+		border_hl = "@function",
+	},
 	["^lua_ls"] = {
 		name = " LuaLS",
 		border_hl = "@function",
@@ -77,10 +85,6 @@ lsp_hover.config = {
 	},
 	["^svelte"] = {
 		name = " svelte",
-		border_hl = "@function",
-	},
-	["^ansible_ls"] = {
-		name = " Ansible",
 		border_hl = "@function",
 	},
 	["^helm_ls"] = {
