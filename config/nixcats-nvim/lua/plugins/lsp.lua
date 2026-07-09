@@ -1,6 +1,32 @@
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 require("plugins.lsp.yaml").setup(capabilities)
 
+local function resolve_tsdk()
+	local tsc_path = vim.fn.exepath("tsc")
+	if tsc_path == "" then
+		return nil
+	end
+
+	local real_tsc = vim.uv.fs_realpath(tsc_path)
+	if not real_tsc then
+		return nil
+	end
+
+	local store_root = real_tsc:gsub("/bin/tsc$", "")
+	local tsdk = store_root .. "/lib/node_modules/typescript/lib"
+
+	if vim.fn.isdirectory(tsdk) == 1 then
+		return tsdk
+	end
+
+	return nil
+end
+
+local tsdk = resolve_tsdk()
+if not tsdk then
+	vim.notify("astro-ls: could not resolve typescript tsdk path", vim.log.levels.WARN)
+end
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
@@ -121,6 +147,18 @@ vim.lsp.config("svelte", {
 	capabilities = capabilities,
 })
 
+vim.lsp.config("astro_ls", {
+	cmd = { "astro-ls", "--stdio" },
+	filetypes = { "astro" },
+	root_markers = { "astro.config.mjs", "astro.config.js", "astro.config.ts", "package.json", ".git" },
+	capabilities = capabilities,
+	init_options = {
+		typescript = {
+			tsdk = tsdk,
+		},
+	},
+})
+
 vim.lsp.config("bashls", {
 	cmd = { "bash-language-server", "start" },
 	filetypes = { "sh", "bash" },
@@ -165,6 +203,7 @@ vim.lsp.enable({
 	"nil_ls",
 	"clangd",
 	"lua_ls",
+	"astro_ls",
 })
 
 require("conform").setup({
