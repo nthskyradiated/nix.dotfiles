@@ -28,6 +28,10 @@ vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
 vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Document symbols" })
 
+vim.keymap.set("n", "<leader>fa", function()
+	builtin.find_files({ hidden = true })
+end, { desc = "Find files including hidden" })
+
 local harpoon = require("harpoon")
 harpoon:setup()
 
