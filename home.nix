@@ -57,6 +57,7 @@
     qadwaitadecorations-qt6
     gnome-themes-extra
     papirus-icon-theme
+    rose-pine-hyprcursor
 
     # Custom scripts for nix-search-tv
     (writeShellScriptBin "ns" ''

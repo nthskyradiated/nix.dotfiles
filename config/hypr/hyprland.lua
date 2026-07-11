@@ -47,9 +47,10 @@ end)
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
 
+hl.env("HYPRCURSOR_THEME", "rose-pine-hyprcursor")
+hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("GTK_THEME", "Adwaita:dark")
 hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 
@@ -74,7 +75,7 @@ hl.config({
 		layout = "dwindle",
 	},
 
-	cursor = { enable_hyprcursor = false, no_hardware_cursors = true },
+	cursor = { enable_hyprcursor = true, no_hardware_cursors = true },
 
 	decoration = {
 		rounding = 0,
