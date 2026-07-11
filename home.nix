@@ -108,6 +108,10 @@
       ];
     };
 
+    btop.settings = {
+      color_theme = "tokyo-storm";
+      theme_background = false;
+    };
   };
 
   # GTK theming
@@ -178,11 +182,12 @@
     desktopEntries.librewolf = {
       name = "LibreWolf";
       exec = "${pkgs.librewolf}/bin/librewolf";
+      icon = "librewolf";
     };
     desktopEntries.nvim = {
       name = "Neovim (Terminal)";
       exec = "ghostty -e nvim";
-      icon = "nvim"; # optional, pick whatever icon you want
+      icon = "nvim";
       categories = [ "Utility" "Development" ];
     };
 
@@ -190,6 +195,12 @@
       name = "btop";
       exec = "ghostty -e btop";
       categories = [ "System" "Monitor" ];
+    };
+
+    desktopEntries.vim = {
+      name = "Vim";
+      exec = "vim";
+      noDisplay = true;
     };
   };
 }
