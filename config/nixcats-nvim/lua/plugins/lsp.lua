@@ -227,6 +227,9 @@ require("conform").setup({
 		bash = { "shfmt" },
 		terraform = { "tofu_fmt" },
 		nix = { "nixpkgs_fmt" },
+		c = { "clang_format" },
+		cpp = { "clang_format" },
+		zig = { "zigfmt" },
 	},
 	formatters = {
 		nixpkgs_fmt = {
