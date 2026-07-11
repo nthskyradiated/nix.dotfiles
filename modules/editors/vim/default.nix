@@ -18,6 +18,7 @@ in
     plugins = plugins;
 
     settings = {
+      background = "dark";
       number = true;
       relativenumber = true;
       expandtab = true;
