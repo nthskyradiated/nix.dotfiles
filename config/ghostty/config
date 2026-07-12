@@ -1,6 +1,7 @@
 # Font configuration
 font-family = ""
 font-family = FiraCode Nerd Font Mono
+font-family-italic = Iosevka
 font-size = 13
 
 theme = TokyoNight Moon
@@ -13,7 +14,7 @@ background-opacity = 0.8
 
 
 # Terminal settings
-term = xterm-256color
+# term = xterm-ghostty
 
 # Keybindings
 keybind = f11=toggle_fullscreen
