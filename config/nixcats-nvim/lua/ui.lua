@@ -4,6 +4,10 @@ require("tokyonight").setup({
 	styles = {
 		sidebars = "transparent",
 		floats = "transparent",
+		comments = { italic = true },
+		keywords = { italic = true },
+		functions = { italic = true },
+		variables = { italic = true },
 	},
 	on_highlights = function(hl, c)
 		hl.LineNr = {

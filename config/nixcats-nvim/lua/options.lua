@@ -13,19 +13,20 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.signcolumn = "yes"
+vim.opt.colorcolumn = "80"
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 vim.opt.completeopt = "menu,menuone,noselect"
-
 vim.opt.incsearch = true
 vim.opt.scrolloff = 8
-
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
-
+vim.opt.termguicolors = true
+vim.opt.background = "dark"
+vim.opt.splitbelow = true
+vim.opt.splitright = true
 vim.diagnostic.config({
 	virtual_text = false,
-	signs = true,
 	underline = true,
 	update_in_insert = false,
 	severity_sort = true,
