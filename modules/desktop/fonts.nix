@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   fonts.packages = with pkgs; [
-    jetbrains-mono
+    nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
     nerd-fonts.caskaydia-mono
     adwaita-fonts
@@ -11,7 +11,7 @@
   fonts.fontconfig = {
     defaultFonts = {
       serif = [ "Liberation Serif" ];
-      sansSerif = [ "FiraCode Nerd Font Mono" ];
+      sansSerif = [ "jetBrainsMono Nerd Font Mono" ];
       monospace = [ "iosevka" ];
     };
   };
