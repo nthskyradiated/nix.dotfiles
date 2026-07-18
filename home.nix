@@ -119,7 +119,7 @@
   gtk = {
     enable = true;
     font = {
-      name = "JetBrains Mono";
+      name = "jetBrainsMono Nerd Font Mono";
       size = 11;
     };
     iconTheme = {
