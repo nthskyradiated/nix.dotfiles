@@ -80,10 +80,12 @@
             which-key-nvim
             gitsigns-nvim
             comment-nvim
+            overseer-nvim
             tailwind-tools-nvim
 
             nvim-lspconfig
             nvim-cmp
+            nvim-notify
             cmp-nvim-lsp
             cmp-buffer
             cmp-path
