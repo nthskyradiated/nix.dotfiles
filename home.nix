@@ -19,7 +19,14 @@
     QT_QPA_PLATFORMTHEME = "adwaita";
     QT_STYLE_OVERRIDE = "adwaita-dark";
     QT_FONT_DPI = "96";
+    PNPM_HOME = "${config.home.homeDirectory}/.local/share/pnpm";
+    NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-global";
   };
+
+  home.sessionPath = [
+    "${config.home.homeDirectory}/.local/share/pnpm/bin"
+    "${config.home.homeDirectory}/.npm-global/bin"
+  ];
 
   fonts.fontconfig.enable = true;
 
@@ -32,6 +39,7 @@
     neovide
     yt-dlp
     ffmpeg
+    fishPlugins.transient-fish
 
     kubectl
     kubeseal
