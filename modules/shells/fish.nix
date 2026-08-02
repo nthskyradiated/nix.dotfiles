@@ -51,6 +51,21 @@
         set_color normal
         printf "=> "
       '';
+
+      transient_prompt_func = ''
+        set --local color green
+        if test $transient_pipestatus[-1] -ne 0
+            set color red
+        end
+
+        echo -en (set_color $color)"=> "(set_color normal)
+      '';
+
+      transient_rprompt_func = ''
+        set_color blue
+        printf "[%s]" (date "+%H:%M:%S %Y-%m-%d")
+        set_color normal
+      '';
     };
   };
 }
