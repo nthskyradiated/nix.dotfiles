@@ -39,6 +39,15 @@ require("tokyonight").setup({
 			fg = c.warning,
 			bg = c.bg_highlight,
 		}
+
+		hl.Comment = {
+			fg = "#4a7498",
+			italic = true,
+		}
+		hl.DiagnosticUnnecessary = {
+			fg = "#4a7498",
+			italic = true,
+		}
 	end,
 })
 
