@@ -81,23 +81,6 @@
     };
   };
 
-  services.hyprsunset = {
-    enable = true;
-    settings = {
-      max-gamma = 100;
-      profile = [
-        {
-          time = "7:00";
-          identity = true;
-        }
-        {
-          time = "17:00";
-          temperature = 4000;
-        }
-      ];
-    };
-  };
-
   programs = {
     git = {
       enable = true;
@@ -155,22 +138,41 @@
   };
 
   home.file = {
-    ".config/hypr/hyprland.lua".source = ./config/hypr/hyprland.lua;
-    ".config/hypr/hyprpaper.conf".source = ./config/hypr/hyprpaper.conf;
-    ".config/hypr/hl.meta.lua".source = ./config/hypr/hl.meta.lua;
+    ".config/hypr/hyprland.lua" = {
+      source = ./config/hypr/hyprland.lua;
+      force = true;
+    };
+
+    ".config/hypr/hyprpaper.conf" = {
+      source = ./config/hypr/hyprpaper.conf;
+      force = true;
+    };
+
+    ".config/hypr/hyprsunset.conf" = {
+      source = ./config/hypr/hyprsunset.conf;
+      force = true;
+    };
+
+    ".config/hypr/hl.meta.lua" = {
+      source = ./config/hypr/hl.meta.lua;
+      force = true;
+    };
+
     ".config/dolphinrc".source = ./config/dolphin/dolphinrc;
     ".config/wofi".source = ./config/wofi;
     ".config/waybar".source = ./config/waybar;
     ".config/ghostty".source = ./config/ghostty;
+
     ".config/scripts/toggle-audio.sh" = {
       source = ./config/scripts/toggle-audio.sh;
       executable = true;
+      force = true;
     };
+
     ".config/openvpn/work.ovpn".source =
       config.lib.file.mkOutOfStoreSymlink
         "/home/andy/nix.dotfiles/config/openvpn/work.ovpn";
   };
-
   xdg = {
     portal = {
       enable = true;
