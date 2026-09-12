@@ -18,6 +18,7 @@ with lib;
         "azure-winds.myapp.sh"
         "auth.myapp.sh"
         "drizzle.myapp.sh"
+        "pumpfactory.myapp.sh"
       ];
 
 
