@@ -19,6 +19,7 @@ with lib;
         "auth.myapp.sh"
         "drizzle.myapp.sh"
         "pumpfactory.myapp.sh"
+        "pfcore.myapp.sh"
       ];
 
 
